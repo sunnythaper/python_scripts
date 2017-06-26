@@ -29,7 +29,7 @@ for i in entities:
     text = text + entity + ":\n"
     text = text + "  state: " + status.state + "\n"
 
-    # ENTITY ATTRIBUTES
+    # ENTITY ATTRIBUTES WHEN STATE IS ON
     if status.state == 'on':
         for i in attributes:
 
