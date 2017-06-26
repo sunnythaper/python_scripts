@@ -2,12 +2,14 @@
 #
 # {
 #     "domain": "light",
-#     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"]
+#     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"],
+#     "save_file": true
 # }
 
 # SETUP VARIABLES FROM HASS CALL
 domain = data.get('domain')
 attributes = data.get('attributes')
+save_file = data.get('save_file')
 
 # PRINT NICELY FORMATTED HEADER
 text = "\n\n"
@@ -43,5 +45,9 @@ for i in entities:
     # GIVE THE PO DECLARATION SOME SPACE
     text = text + "\n"
 
-# OUTPUT FORMATTED YAML TO INFO PANEL/LOG FILE
-logger.warning(text)
+if save_file:
+    # SAVE SCENE CONFIGURATION TO FILE
+    hass.services.call("notify", "scene_generator", {"message": "{}".format(text)})
+else:
+    # OUTPUT FORMATTED YAML TO LOG FILE
+    logger.warning(text)
