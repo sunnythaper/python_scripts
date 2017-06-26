@@ -2,12 +2,12 @@
 #
 # {
 #     "domain": "light",
-#     "attributes": "brightness, color_temp, xy_color, rgb_color"
+#     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"]
 # }
 
 
 domain = data.get('domain')
-attributes = (data.get('attributes')).split(', ')
+attributes = data.get('attributes')
 
 # DEBUGGING
 text = "\n\n"

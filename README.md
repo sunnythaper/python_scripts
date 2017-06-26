@@ -15,7 +15,7 @@ This script allows you to export your current states/attributes into the YAML fo
 ```js
 {
     "domain": "light",
-    "attributes": "brightness, color_temp, xy_color, rgb_color"
+    "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"]
 }
 ```
 
