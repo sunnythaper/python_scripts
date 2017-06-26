@@ -9,6 +9,8 @@ This script allows you to export your current states/attributes into the YAML fo
 1. Set your devices to how you want them
 2. Call the scene_generator service with your JSON settings
 3. Go to the info tab to copy/paste the result
+OR
+3. Go to your configuration folder and open generated_scene.yaml if you set file_save to true
 
 **EXAMPLE JSON**
 
