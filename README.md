@@ -2,7 +2,11 @@
 
 ## scene_generator.py
 
+**DEMO**
+
 ![scene generator walkthrough](https://github.com/sunnythaper/python_scripts/raw/master/readme-assets/scene_generator.gif)
+
+**OVERVIEW**
 
 This script allows you to export your current states/attributes into the YAML format for HASS Scenes!
 
