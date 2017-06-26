@@ -18,3 +18,9 @@ This script allows you to export your current states/attributes into the YAML fo
     "attributes": "brightness, color_temp, xy_color, rgb_color"
 }
 ```
+
+**FUTURE ENHANCEMENTS**
+
+1. Multiple domain service call support - get everything all at once
+2. Notifier service tie in - no longer use the info tab
+3. Possible hass.io add-on to autogenerate scene YAML files
