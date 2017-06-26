@@ -2,7 +2,7 @@
 #
 # {
 #     "domain": "light",
-#     "attributes": ["brightness, color_temp, xy_color, rgb_color"]
+#     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"]
 # }
 
 
