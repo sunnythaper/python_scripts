@@ -20,7 +20,7 @@ OR
 
 ```js
 {
-    "domain": "light",
+    "domains": ["light", "switch"],
     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"],
     "save_file": true
 }
@@ -40,6 +40,6 @@ notify:
 
 **FUTURE ENHANCEMENTS**
 
-1. Multiple domain service call support - get everything all at once
+1. ~~Multiple domain service call support - get everything all at once~~ Added 01/26/2018
 2. Notifier service tie in - no longer use the info tab
 3. Possible hass.io add-on to autogenerate scene YAML files
