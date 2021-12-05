@@ -1,0 +1,13 @@
+scene_generator:
+  name: scene_generator.py
+  description: Export YAML formatted state/attributes
+  fields:
+    domains:
+      description: The types of devices to be included into the export
+      example: "['light','switch']"
+    attributes:
+      description: The information you are looking to export from each device
+      example: "['brightness','color_temp','xy_color','rgb_color']"
+    save_file:
+      description: Export a file to your /config directory (default is off) of results
+      example: true
