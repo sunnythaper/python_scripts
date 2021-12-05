@@ -1,14 +1,6 @@
-# Pass the following:
-#
-# {
-#     "domains": ["light", "switch"],
-#     "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"],
-#     "save_file": true
-# }
-
 # SETUP VARIABLES FROM HASS CALL
-domains = data.get('domains')
-attributes = data.get('attributes')
+domains = data.get('domains', ['light','switch'])
+attributes = data.get('attributes', ['brightness','color_temp','xy_color','rgb_color'])
 save_file = data.get('save_file')
 
 # ACCOUNT FOR DEPRECIATED SETTINGS
