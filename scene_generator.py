@@ -43,7 +43,7 @@ def export_results(text, save_file):
         except Exception as e:
             logger.error(f"Failed to call 'notify.scene_generator' service: {str(e)}")
     else:
-        logger.info(text)
+        logger.warning(text)
 
 domains = data.get('domains', ['light','switch','fan'])
 entities = data.get('entities')

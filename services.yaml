@@ -21,5 +21,5 @@ scene_generator:
         - xy_color
         - rgb_color
     save_file:
-      description: If set to true, the generated scene will be sent as a message using the 'notify.scene_generator' service. If false, the scene will be logged using logger.info.
+      description: If set to true, the generated scene will be sent as a message using the 'notify.scene_generator' service. If false, the scene will be logged using logger.warning.
       example: true
