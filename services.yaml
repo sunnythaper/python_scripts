@@ -1,13 +1,20 @@
 scene_generator:
-  name: scene_generator.py
-  description: Export YAML formatted state/attributes
+  name: Scene Generator
+  description: Generate a scene based on the state of specific entities in specified domains.
   fields:
     domains:
-      description: The types of devices to be included into the export
-      example: "['light','switch']"
+      description: The domains to be processed for generating the scene.
+      example:
+        - light
+        - switch
+        - fan
     attributes:
-      description: The information you are looking to export from each device
-      example: "['brightness','color_temp','xy_color','rgb_color']"
+      description: The attributes of the entities to be processed.
+      example:
+        - brightness
+        - color_temp
+        - xy_color
+        - rgb_color
     save_file:
-      description: Export a file to your /config directory (default is off) of results
+      description: If set to true, the generated scene will be sent as a message using the 'notify.scene_generator' service. If false, the scene will be logged using logger.info.
       example: true

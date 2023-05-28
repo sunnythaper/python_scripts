@@ -1,34 +1,46 @@
 # python_scripts
 
+This repository contains Python scripts that can be used with the Home Assistant automation platform. Each script provides a unique functionality to extend the capabilities of your Home Assistant setup.
+
 ## scene_generator.py
 
-**DEMO**
+### DEMO
 
 ![scene generator walkthrough](https://github.com/sunnythaper/python_scripts/raw/master/readme-assets/scene_generator.gif)
 
-**OVERVIEW**
+### OVERVIEW
 
-This script allows you to export your current states/attributes into the YAML format for HASS Scenes!
+The `scene_generator.py` script allows you to export your current entity states and attributes into the YAML format for Home Assistant Scenes. This is a powerful tool for creating scenes based on your current device configurations.
 
-1. Set your devices to how you want them
-2. Call the scene_generator service with your JSON settings
-3. Go to the info tab to copy/paste the result
-**OR**
-Go to your configuration folder and open generated_scene.yaml if you set file_save to true
+Here's how it works:
 
-**EXAMPLE JSON**
+1. Set individual lights, fans, switches, covers, etc. to your desired state for the scene.
+2. Call the `scene_generator` service with your custom service data, or leave it blank for default settings.
+3. If you set `save_file` to false, go to the Home Assistant logs to copy the generated YAML for the scene.
+4. If you set `save_file` to true, go to your configuration folder and open `generated_scene.yaml`.
 
-```js
-{
-    "domains": ["light", "switch"],
-    "attributes": ["brightness", "color_temp", "xy_color", "rgb_color"],
-    "save_file": true
-}
+### EXAMPLE SERVICE DATA
+
+![example service call](https://github.com/sunnythaper/python_scripts/raw/master/readme-assets/service_call.png)
+
+```yaml
+domains:
+  - light
+  - switch
+  - fan
+attributes:
+  - brightness
+  - color_temp
+  - xy_color
+  - rgb_color
+save_file: true
 ```
 
-**FILE SAVING**
+In this example, we're generating a scene for all light, switch, and fan entities, and including brightness, color temperature, and color attributes.
 
-If you would like scene_generator.py to save directly to a file in the HASS configuration directory, simply add a file notification declaration exactly as below. Currently the name is referenced by the script directly so do not change the name. You may change the filename to whatever you wish, however.
+### FILE SAVING
+
+If you would like `scene_generator.py` to save the generated scene directly to a file in the Home Assistant configuration directory, you'll need to set up a file notification in your Home Assistant configuration. Here's an example of how to do that:
 
 ```yaml
 notify:
@@ -38,8 +50,4 @@ notify:
     timestamp: false
 ```
 
-**FUTURE ENHANCEMENTS**
-
-1. ~~Multiple domain service call support - get everything all at once~~ Added 01/26/2018
-2. Notifier service tie in - no longer use the info tab
-3. Possible hass.io add-on to autogenerate scene YAML files
+In this configuration, the generated scene will be saved to a file named `generated_scene.yaml` in your Home Assistant configuration directory. The `timestamp` option is set to false, meaning that timestamps will not be included in the generated file.

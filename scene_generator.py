@@ -1,58 +1,31 @@
-# SETUP VARIABLES FROM HASS CALL
-domains = data.get('domains', ['light','switch'])
+def format_header(domain):
+    return f"\n#############################################\n## {domain}\n#############################################\n\n"
+
+def format_entity_status(entity, status, attributes):
+    attribute_texts = [f"  {attribute}: {str(status.attributes.get(attribute))}\n"
+                       for attribute in attributes if status.attributes.get(attribute)]
+    return f"{entity}:\n  state: {status.state}\n" + "".join(attribute_texts) + "\n"
+
+def process_domain(domain, attributes):
+    text_lines = [format_header(domain)]
+    entities = hass.states.entity_ids(domain)
+    for entity_id in entities:
+        entity_status = hass.states.get(entity_id)
+        text_lines.append(format_entity_status(entity_id, entity_status, attributes))
+    return "".join(text_lines)
+
+def process_domains(domains, attributes):
+    return "".join(process_domain(domain, attributes) for domain in domains)
+
+def export_results(text, save_file):
+    if save_file:
+        hass.services.call("notify", "scene_generator", {"message": "{}".format(text)})
+    else:
+        logger.info(text)
+
+domains = data.get('domains', ['light','switch','fan'])
 attributes = data.get('attributes', ['brightness','color_temp','xy_color','rgb_color'])
 save_file = data.get('save_file')
 
-# ACCOUNT FOR DEPRECIATED SETTINGS
-if data.get('domain'):
-    domains = [data.get('domain')]
-
-# SET YAML RECEIVER VARIABLE
-text = ""
-
-# PROCESS EACH DOMAIN
-for i in domains:
-
-    # GET DOMAIN
-    domain = ("%r" % i).strip("'")
-
-    # PRINT NICELY FORMATTED HEADER
-    text = text + "\n"
-    text = text + "#############################################\n"
-    text = text + "## " + domain + "\n"
-    text = text + "#############################################\n\n"
-
-    # FIND ALL ENTITIES BY DOMAIN
-    entities = hass.states.entity_ids(domain)
-
-    # GET ENTITY STATE & ATTRIBUTES
-    for i in entities:
-
-        # GET ENTITY DATA FROM HASS
-        entity = ("%r" % i).strip("'")
-        status = hass.states.get(entity)
-
-        # ENTITY STATE
-        text = text + entity + ":\n"
-        text = text + "  state: " + status.state + "\n"
-
-        # ENTITY ATTRIBUTES WHEN STATE IS ON
-        if status.state == 'on':
-            for i in attributes:
-
-                # GET ATTRIBUTE BY JSON ARRAY PASSED BY HASS CALL
-                attributeState = ("%r" % i).strip("'")
-
-                # DISPLAY ATTRIBUTE IF NOT EMPTY
-                if status.attributes.get(attributeState):
-                    text = text + "  " + attributeState + ": " + str(status.attributes.get(attributeState)) + "\n"
-
-        # GIVE THE PO DECLARATION SOME SPACE
-        text = text + "\n"
-
-if save_file:
-    # SAVE SCENE CONFIGURATION TO FILE
-    hass.services.call("notify", "scene_generator", {"message": "{}".format(text)})
-else:
-    # OUTPUT FORMATTED YAML TO LOG FILE
-    logger.warning(text)
+text = process_domains(domains, attributes)
+export_results(text, save_file)
