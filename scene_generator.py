@@ -2,6 +2,9 @@ def format_header(domain):
     return f"\n#############################################\n## {domain}\n#############################################\n\n"
 
 def format_entity_status(entity, status, attributes):
+    if status is None:
+        logger.warning(f"Entity '{entity}' not found.")
+        return f"# Entity '{entity}' not found.\n"
     attribute_texts = [f"  {attribute}: {str(status.attributes.get(attribute))}\n"
                        for attribute in attributes if status.attributes.get(attribute)]
     return f"{entity}:\n  state: {status.state}\n" + "".join(attribute_texts) + "\n"
@@ -14,8 +17,11 @@ def process_entities(entities, attributes):
     return "".join(text_lines)
 
 def process_domain(domain, attributes):
-    text_lines = [format_header(domain)]
     entities = hass.states.entity_ids(domain)
+    if not entities:
+        logger.warning(f"Domain '{domain}' not found or has no entities.")
+        return f"# Domain '{domain}' not found or has no entities.\n"
+    text_lines = [format_header(domain)]
     text_lines.append(process_entities(entities, attributes))
     return "".join(text_lines)
 
@@ -32,7 +38,10 @@ def process_input(domains, entities, attributes):
 
 def export_results(text, save_file):
     if save_file:
-        hass.services.call("notify", "scene_generator", {"message": "{}".format(text)})
+        try:
+            hass.services.call("notify", "scene_generator", {"message": "{}".format(text)})
+        except Exception as e:
+            logger.error(f"Failed to call 'notify.scene_generator' service: {str(e)}")
     else:
         logger.info(text)
 
