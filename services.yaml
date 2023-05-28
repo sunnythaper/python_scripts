@@ -1,13 +1,18 @@
 scene_generator:
   name: Scene Generator
-  description: Generate a scene based on the state of specific entities in specified domains.
+  description: Generate a scene based on the state of specific entities in specified domains or directly defined entities.
   fields:
     domains:
-      description: The domains to be processed for generating the scene.
+      description: The domains to be processed for generating the scene. Ignored if entities are defined.
       example:
         - light
         - switch
         - fan
+    entities:
+      description: Specific entities to be processed for generating the scene. Takes precedence over domains if both are defined.
+      example:
+        - light.living_room
+        - switch.kitchen
     attributes:
       description: The attributes of the entities to be processed.
       example:

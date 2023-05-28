@@ -6,16 +6,29 @@ def format_entity_status(entity, status, attributes):
                        for attribute in attributes if status.attributes.get(attribute)]
     return f"{entity}:\n  state: {status.state}\n" + "".join(attribute_texts) + "\n"
 
-def process_domain(domain, attributes):
-    text_lines = [format_header(domain)]
-    entities = hass.states.entity_ids(domain)
+def process_entities(entities, attributes):
+    text_lines = []
     for entity_id in entities:
         entity_status = hass.states.get(entity_id)
         text_lines.append(format_entity_status(entity_id, entity_status, attributes))
     return "".join(text_lines)
 
+def process_domain(domain, attributes):
+    text_lines = [format_header(domain)]
+    entities = hass.states.entity_ids(domain)
+    text_lines.append(process_entities(entities, attributes))
+    return "".join(text_lines)
+
 def process_domains(domains, attributes):
+    if not domains:
+        return ""
     return "".join(process_domain(domain, attributes) for domain in domains)
+
+def process_input(domains, entities, attributes):
+    if entities:
+        return process_entities(entities, attributes)
+    else:
+        return process_domains(domains, attributes)
 
 def export_results(text, save_file):
     if save_file:
@@ -24,8 +37,9 @@ def export_results(text, save_file):
         logger.info(text)
 
 domains = data.get('domains', ['light','switch','fan'])
+entities = data.get('entities')
 attributes = data.get('attributes', ['brightness','color_temp','xy_color','rgb_color'])
 save_file = data.get('save_file')
 
-text = process_domains(domains, attributes)
+text = process_input(domains, entities, attributes)
 export_results(text, save_file)

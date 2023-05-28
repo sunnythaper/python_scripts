@@ -19,6 +19,8 @@ Here's how it works:
 3. If you set `save_file` to false, go to the Home Assistant logs to copy the generated YAML for the scene.
 4. If you set `save_file` to true, go to your configuration folder and open `generated_scene.yaml`.
 
+This script allows you to specify either domains or entities directly. If both domains and entities are defined, the script will prioritize entities over domains.
+
 ### EXAMPLE SERVICE DATA
 
 ![example service call](https://github.com/sunnythaper/python_scripts/raw/master/readme-assets/service_call.png)
@@ -28,6 +30,9 @@ domains:
   - light
   - switch
   - fan
+entities:
+  - light.living_room
+  - switch.kitchen
 attributes:
   - brightness
   - color_temp
@@ -36,7 +41,7 @@ attributes:
 save_file: true
 ```
 
-In this example, we're generating a scene for all light, switch, and fan entities, and including brightness, color temperature, and color attributes.
+In this example, we're generating a scene for all light, switch, and fan entities defined in the domains, as well as specifically for `light.living_room` and `switch.kitchen` entities. It includes brightness, color temperature, and color attributes. If both domains and entities are defined, the script will process only the entities and ignore the domains.
 
 ### FILE SAVING
 
